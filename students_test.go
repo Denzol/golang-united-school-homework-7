@@ -117,7 +117,3 @@ func TestSwapData(t *testing.T) {
 		}
 	}
 }
-
-/*
-
- */
