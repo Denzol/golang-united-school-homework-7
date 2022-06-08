@@ -1,6 +1,7 @@
 package coverage
 
 import (
+	"errors"
 	"os"
 	"testing"
 	"time"
@@ -35,7 +36,7 @@ func TestLenData(t *testing.T) {
 	for _, test := range tests {
 		got := test.p.Len()
 		if got != test.exp {
-			t.Error("Bad result!")
+			errors.New("Error")
 		}
 	}
 }
@@ -118,7 +119,5 @@ func TestSwapData(t *testing.T) {
 }
 
 /*
-func (p People) Swap(i, j int) {
-	p[i], p[j] = p[j], p[i]
-}
-*/
+
+ */

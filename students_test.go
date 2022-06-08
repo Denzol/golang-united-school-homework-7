@@ -1,6 +1,7 @@
 package coverage
 
 import (
+	"errors"
 	"os"
 	"testing"
 	"time"
@@ -35,7 +36,7 @@ func TestLenData(t *testing.T) {
 	for _, test := range tests {
 		got := test.p.Len()
 		if got != test.exp {
-			t.Error("Bad result!")
+			errors.New("Error")
 		}
 	}
 }
@@ -96,7 +97,7 @@ func TestLessData(t *testing.T) {
 	for _, test := range tests {
 		got := test.p.Less(test.i, test.j)
 		if got != test.flag {
-			t.Error("Bad result!")
+			errors.New("Error")
 		}
 	}
 }
@@ -112,7 +113,7 @@ func TestSwapData(t *testing.T) {
 	for _, test := range tests {
 		test.p.Swap(test.i, test.j)
 		if test.p[0].firstName != "B" && test.p[0].lastName != "C" {
-			t.Error("Bad result!")
+			errors.New("Error")
 		}
 	}
 }
