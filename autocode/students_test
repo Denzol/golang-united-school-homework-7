@@ -22,10 +22,12 @@ func init() {
 // WRITE YOUR CODE BELOW
 type testData struct {
 	p    People
+	m    Matrix
 	exp  int
 	err  error
 	i, j int
 	flag bool
+	str  string
 }
 
 func TestLenData(t *testing.T) {
@@ -113,6 +115,22 @@ func TestSwapData(t *testing.T) {
 	for _, test := range tests {
 		test.p.Swap(test.i, test.j)
 		if test.p[0].firstName != "B" && test.p[0].lastName != "C" {
+			errors.New("Error")
+		}
+	}
+}
+
+func TestSwapNew(t *testing.T) {
+	tests := []testData{
+		testData{
+			m:   Matrix{},
+			str: "",
+			err: nil,
+		},
+	}
+	for _, test := range tests {
+		_, err := New(test.str)
+		if err != test.err {
 			errors.New("Error")
 		}
 	}
