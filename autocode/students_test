@@ -2,6 +2,7 @@ package coverage
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -21,13 +22,14 @@ func init() {
 
 // WRITE YOUR CODE BELOW
 type testData struct {
-	p    People
-	m    Matrix
-	exp  int
-	err  error
-	i, j int
-	flag bool
-	str  string
+	p        People
+	m        *Matrix
+	exp      int
+	err      error
+	i, j     int
+	flag     bool
+	str      string
+	expValue [][]int
 }
 
 func TestLenData(t *testing.T) {
@@ -123,15 +125,98 @@ func TestSwapData(t *testing.T) {
 func TestSwapNew(t *testing.T) {
 	tests := []testData{
 		testData{
-			m:   Matrix{},
+			m:   &Matrix{},
 			str: "",
+			err: nil,
+		},
+		testData{
+			m:   &Matrix{2, 1, []int{11, 12}},
+			str: "11 \n 12",
+			err: nil,
+		},
+		testData{
+			m:   &Matrix{},
+			str: "Hello /n World!",
+			err: fmt.Errorf("strconv.Atoi: parsing \"Hello\": invalid syntax"),
+		},
+		testData{
+			m:   &Matrix{},
+			str: "11 \n 12 14",
+			err: nil,
+		},
+		testData{
+			m:   &Matrix{3, 2, []int{11, 12}},
+			str: "11 12 \n 13 14 \n 15 16",
 			err: nil,
 		},
 	}
 	for _, test := range tests {
-		_, err := New(test.str)
-		if err != test.err {
+		got, err := New(test.str)
+		if got != test.m || err != nil {
 			errors.New("Error")
 		}
 	}
+}
+
+func TestRows(t *testing.T) {
+	tests := []testData{
+		testData{
+			m:        &Matrix{2, 2, []int{2, 4, 6, 8}},
+			expValue: [][]int{[]int{2, 4}, []int{6, 8}},
+		},
+		testData{
+			m:        &Matrix{0, 0, []int{}},
+			expValue: [][]int{},
+		},
+	}
+	for _, test := range tests {
+		got := test.m.Rows()
+		for i, k := range got {
+			if k[i] != test.expValue[i][i] {
+				errors.New("Error")
+			}
+		}
+
+	}
+}
+func TestCols(t *testing.T) {
+	tests := []testData{
+		testData{
+			m:        &Matrix{2, 2, []int{2, 4, 6, 8}},
+			expValue: [][]int{[]int{2, 4}, []int{6, 8}},
+		},
+		testData{
+			m:        &Matrix{0, 0, []int{}},
+			expValue: [][]int{},
+		},
+	}
+	for _, test := range tests {
+		got := test.m.Cols()
+		for i, k := range got {
+			if k[i] != test.expValue[i][i] {
+				errors.New("Error")
+			}
+		}
+
+	}
+}
+
+func TestSet(t *testing.T) {
+	tests := []testData{
+		testData{
+			m:    &Matrix{2, 2, []int{2, 4, 6, 8}},
+			flag: true,
+		},
+		testData{
+			m:    &Matrix{0, 0, []int{}},
+			flag: false,
+		},
+	}
+	for _, test := range tests {
+		got := test.m.Set(1, 1, 3)
+		if got != test.flag {
+			errors.New("Error")
+		}
+	}
+
 }
